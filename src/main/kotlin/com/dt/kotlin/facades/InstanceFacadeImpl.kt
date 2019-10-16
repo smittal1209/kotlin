@@ -15,19 +15,11 @@ class InstanceFacadeImpl : InstanceFacade {
     @Autowired
     lateinit var instanceService: InstanceService
 
-    override fun getAllInstances(): List<Instance> {
-        return instanceService.getAllInstances()
-    }
+    override fun getAllInstances() = instanceService.getAllInstances()
 
-    override fun getInstanceById(id: Long): Instance {
-        return instanceService.getInstanceById(id)
-    }
+    override fun getInstanceById(id: Long) = instanceService.getInstanceById(id)
 
-    override fun createInstance(instance: Instance): Instance {
-        return instanceService.createInstance(instance)
-    }
+    override fun createInstance(instance: Instance) = instanceService.createInstance(instance)
 
-    override fun updateInstance(id: Long, instance: Instance): Instance {
-        return instanceService.updateInstance(id,instance)
-    }
+    override fun updateInstance(id: Long, instance: Instance) = instanceService.updateInstance(id, instance)
 }

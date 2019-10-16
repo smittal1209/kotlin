@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * @author shashankmittal
+ * @created 16/10/19
+ */
 @RestController
 @RequestMapping(value = BASE_URL)
 class HealthController {

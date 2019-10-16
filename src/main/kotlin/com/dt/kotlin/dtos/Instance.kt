@@ -3,6 +3,10 @@ package com.dt.kotlin.dtos
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.Serializable
 
+/**
+ * @author shashankmittal
+ * @created 16/10/19
+ */
 data class Instance(@JsonProperty("id") var id: String? = null) : Serializable {
 
     @JsonProperty("name")

@@ -1,5 +1,9 @@
 package com.dt.kotlin.constants
 
+/**
+ * @author shashankmittal
+ * @created 16/10/19
+ */
 const val BASE_URL = "/rest/api/v1"
 const val PING = "/ping"
 const val INSTANCES = "/instances"
