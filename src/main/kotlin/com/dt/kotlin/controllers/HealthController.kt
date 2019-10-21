@@ -17,7 +17,5 @@ import org.springframework.web.bind.annotation.RestController
 class HealthController {
 
     @GetMapping(value = PING)
-    fun ping(): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.OK).body("OK")
-    }
+    fun ping(): ResponseEntity<String> = ResponseEntity.status(HttpStatus.OK).body("OK")
 }

@@ -5,7 +5,7 @@ package com.dt.kotlin.dtos
  * @created 15/10/19
  */
 data class GenericResponse<T, E>(var code: String? = null) {
-    var message: String? = null
+    private var message: String? = null
     var data: T? = null
     var error: E? = null
 
