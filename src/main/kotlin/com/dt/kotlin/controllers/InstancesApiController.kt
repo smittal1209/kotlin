@@ -1,6 +1,6 @@
 package com.dt.kotlin.controllers
 
-import com.dt.kotlin.annotations.Logging
+import com.dt.kotlin.annotations.Loggable
 import com.dt.kotlin.constants.ALL
 import com.dt.kotlin.constants.BASE_URL
 import com.dt.kotlin.constants.ID
@@ -29,7 +29,7 @@ class InstancesApiController {
     lateinit var instanceFacade: InstanceFacade
 
     @GetMapping(ALL)
-    @Logging
+    @Loggable
     fun getAllInstances(): ResponseEntity<GenericResponse<List<Instance>, Unit>> {
         val allInstances = instanceFacade.getAllInstances()
         var genericResponse: GenericResponse<List<Instance>, Unit> = GenericResponse<List<Instance>, Unit>(
@@ -41,7 +41,7 @@ class InstancesApiController {
     }
 
     @GetMapping(value = ID)
-    @Logging
+    @Loggable
     fun getInstanceById(@PathVariable("id") id: Long): ResponseEntity<GenericResponse<Instance, Unit>> {
         val instanceById = instanceFacade.getInstanceById(id)
 

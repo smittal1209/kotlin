@@ -8,12 +8,10 @@ import javax.persistence.*
  */
 
 @Entity(name = "instance")
-class InstanceEntity : BaseEntity() {
-
-    @Column(name = "id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long = -1
+data class InstanceEntity(@Column(name = "id")
+                          @Id
+                          @GeneratedValue(strategy = GenerationType.AUTO)
+                          var id: Long = -1) : BaseEntity() {
 
     @Column(name = "name", unique = true, nullable = false)
     var name: String = ""
@@ -26,4 +24,11 @@ class InstanceEntity : BaseEntity() {
 
     @Column(name = "version")
     var version: String? = null
+
+    constructor(id: Long, name: String, description: String, type: String, version: String) : this(id) {
+        this.name = name
+        this.description = description
+        this.type = type
+        this.version = version
+    }
 }

@@ -1,6 +1,6 @@
 package com.dt.kotlin.aspects
 
-import com.dt.kotlin.annotations.Logging
+import com.dt.kotlin.annotations.Loggable
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -19,13 +19,13 @@ class LoggingAspect {
 
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @Pointcut("@annotation(logging)")
-    fun funAnnotatedWithLogging(logging: Logging) {
+    @Pointcut("@annotation(loggable)")
+    fun funAnnotatedWithLoggable(loggable: Loggable) {
     }
 
-    @Around("funAnnotatedWithLogging(logging)")
+    @Around("funAnnotatedWithLoggable(loggable)")
     @Throws(Throwable::class)
-    fun recordLatencyAdvice(joinPoint: ProceedingJoinPoint, logging: Logging): Any {
+    fun recordLatencyAdvice(joinPoint: ProceedingJoinPoint, loggable: Loggable): Any {
         val identifier = "Class : " + joinPoint.signature.declaringType.simpleName + " Method : " + joinPoint.signature.name
         val args = joinPoint.args
         val argsString = Arrays.toString(args)
