@@ -11,10 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 class SecurityConfig : WebSecurityConfigurerAdapter() {
 
-    override fun configure(http: HttpSecurity?) {
+    override fun configure(http: HttpSecurity) {
         http
-                ?.authorizeRequests()
-                ?.antMatchers("/**")
-                ?.permitAll()
+                .authorizeRequests()
+                .antMatchers("/**")
+                .permitAll()
     }
 }

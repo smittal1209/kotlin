@@ -1,7 +1,7 @@
 package com.dt.kotlin.controllers
 
 import com.dt.kotlin.constants.BASE_URL
-import com.dt.kotlin.constants.PING
+import com.dt.kotlin.constants.HEALTH
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,6 +16,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping(value = BASE_URL)
 class HealthController {
 
-    @GetMapping(value = PING)
+    @GetMapping(value = HEALTH)
     fun ping(): ResponseEntity<String> = ResponseEntity.status(HttpStatus.OK).body("OK")
 }
