@@ -40,7 +40,7 @@ class InstancesApiController {
         return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
     }
 
-    @GetMapping(value = ID)
+    @GetMapping(ID)
     @Loggable
     fun getInstanceById(@PathVariable("id") id: Long): ResponseEntity<GenericResponse<Instance, Unit>> {
         val instanceById = instanceFacade.getInstanceById(id)
@@ -66,7 +66,7 @@ class InstancesApiController {
     }
 
 
-    @PutMapping(value = ID)
+    @PutMapping(ID)
     fun updateInstance(@PathVariable("id") id: Long, @RequestBody instance: Instance): ResponseEntity<GenericResponse<Instance, Unit>> {
         val updatedInstance = instanceFacade.updateInstance(id,instance)
 
