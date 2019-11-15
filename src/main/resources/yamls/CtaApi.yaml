@@ -1,0 +1,761 @@
+swagger: "2.0"
+info:
+  title: CMS APIs for TV.
+  description: These APIs are to be used to configure various components to be rendered on the UI for TV.
+  version: 1.0.0
+host: api.example.com
+tags:
+  - name: "cta"
+    description: "CRUD APIs for CTA"
+  - name: "deeplink"
+    description: "CRUD APIs for Deeplink"
+  - name: "rule key"
+    description: "CRUD APIs for Rule Key"
+  - name: "rule value"
+    description: "CRUD APIs for Rule Value"
+schemes:
+  - https
+  - http
+
+paths:
+  #############################################################################
+  #CTA APIs
+  #############################################################################
+  /rest/api/v1/ctas:
+    get:
+      tags:
+        - "cta"
+      summary: "Get all the CTAs in the system."
+      description: "Get all the CTAs in the system."
+      operationId: "getAllCTAs"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            properties:
+              ctas:
+                type: "array"
+                items:
+                  $ref: "#/definitions/CtaResponse"
+        400:
+          description: "Invalid"
+        401:
+          description: "Unauthorized"
+
+    post:
+      tags:
+        - "cta"
+      summary: "Add a new CTA to the system."
+      description: "Add a new CTA to the system."
+      operationId: "addCTA"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "CTA Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Cta"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/CtaResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        405:
+          description: "Method not allowed"
+
+  /rest/api/v1/ctas/{id}:
+    get:
+      tags:
+        - "cta"
+      summary: "Get CTA details by id."
+      description: "Get CTA details by id."
+      operationId: "getCTAById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the CTA"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/CtaResponse"
+        400:
+          description: "Invalid"
+        404:
+          description: "No CTA found"
+        401:
+          description: "Unauthorized"
+
+    put:
+      tags:
+        - "cta"
+      summary: "updates an existing CTA to the system."
+      description: "updates an existing CTA to the system."
+      operationId: "updateCTAById"
+      consumes:
+        - "application/json"
+        - "application/xml"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the CTA"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "CTA Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Cta"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/CtaResponse"
+        404:
+          description: "CTA with the given id not found"
+
+    delete:
+      tags:
+        - "cta"
+      summary: "Deletes a CTA"
+      description: "Deletes a CTA"
+      operationId: "deleteCTAById"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the CTA"
+          required: true
+          type: "integer"
+      produces:
+        - "application/json"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        401:
+          description: "Default CTA can not be deleted"
+        404:
+          description: "CTA ID not found"
+
+  #############################################################################
+  #DEEPLINK APIs
+  #############################################################################
+  /rest/api/v1/deeplinks:
+    get:
+      tags:
+        - "deeplink"
+      summary: "Get all the deeplinks in the system."
+      description: "Get all the deeplinks in the system."
+      operationId: "getAllDeeplinks"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            properties:
+              pages:
+                type: "array"
+                items:
+                  $ref: "#/definitions/DeeplinkResponse"
+        400:
+          description: "Invalid"
+        401:
+          description: "Unauthorized"
+
+    post:
+      tags:
+        - "deeplink"
+      summary: "Add a new deeplink to the system."
+      description: "Add a new deeplink to the system."
+      operationId: "addDeeplink"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Deeplink Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Deeplink"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/DeeplinkResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        405:
+          description: "Method not allowed"
+
+  /rest/api/v1/deeplinks/{id}:
+    get:
+      tags:
+        - "deeplink"
+      summary: "Get deeplink details by id."
+      description: "Get deeplink details by id."
+      operationId: "getDeeplinkById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the deeplink"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/DeeplinkResponse"
+        400:
+          description: "Invalid"
+        404:
+          description: "No deeplinks found"
+        401:
+          description: "Unauthorized"
+
+    put:
+      tags:
+        - "deeplink"
+      summary: "updates an existing deeplink to the system."
+      description: "updates an existing deeplink to the system."
+      operationId: "updateDeeplinkById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the deeplink"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Deeplink Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Deeplink"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/DeeplinkResponse"
+        404:
+          description: "Deeplink with the given id not found"
+
+    delete:
+      tags:
+        - "deeplink"
+      summary: "Deletes a deeplink"
+      description: "Deletes a deeplink"
+      operationId: "deleteDeeplinkById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the deeplink"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        401:
+          description: "Deeplink can not be deleted till referenced by a CTA"
+        404:
+          description: "Deeplink ID not found"
+
+  #############################################################################
+  #RULE KEY APIs
+  #############################################################################
+  /rest/api/v1/rule/keys:
+    get:
+      tags:
+        - "rule key"
+      summary: "Get all the rule keys in the system."
+      description: "Get all the rule keys in the system."
+      operationId: "getAllRuleKeys"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            properties:
+              pages:
+                type: "array"
+                items:
+                  $ref: "#/definitions/RuleKeyResponse"
+        400:
+          description: "Invalid"
+        401:
+          description: "Unauthorized"
+    post:
+      tags:
+        - "rule key"
+      summary: "Add a new rule key to the system."
+      description: "Add a new rule key to the system."
+      operationId: "addRuleKey"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Rule Key Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleKey"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleKeyResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        405:
+          description: "Method not allowed"
+
+  /rest/api/v1/rule/keys/{id}:
+    get:
+      tags:
+        - "rule key"
+      summary: "Get rule key details by id."
+      description: "Get rule key details by id."
+      operationId: "getRuleKeyById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule key"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleKeyResponse"
+        400:
+          description: "Invalid"
+        404:
+          description: "No rule keys found"
+        401:
+          description: "Unauthorized"
+
+    put:
+      tags:
+        - "rule key"
+      summary: "updates an existing rule key to the system."
+      description: "updates an existing rule key to the system."
+      operationId: "updateRukeKeyById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule key"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Rule Key Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleKey"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleKeyResponse"
+        404:
+          description: "Rule Key with the given id not found"
+
+    delete:
+      tags:
+        - "rule key"
+      summary: "Deletes a rule key"
+      description: "Deletes a rule key"
+      operationId: "deleteRuleKeyById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule key"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        401:
+          description: "Rule Key can not be deleted till referenced by a page"
+        404:
+          description: "Rule Key ID not found"
+
+  #############################################################################
+  #RULE VALUES APIs
+  #############################################################################
+  /rest/api/v1/rule/values:
+    get:
+      tags:
+        - "rule value"
+      summary: "Get all the rule values in the system."
+      description: "Get all the rule values in the system."
+      operationId: "getAllRuleValues"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            properties:
+              pages:
+                type: "array"
+                items:
+                  $ref: "#/definitions/RuleValueResponse"
+        400:
+          description: "Invalid"
+        404:
+          description: "No rule values found"
+        401:
+          description: "Unauthorized"
+    post:
+      tags:
+        - "rule value"
+      summary: "Add a new rule value to the system."
+      description: "Add a new rule value to the system."
+      operationId: "addRuleValue"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule key"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Rule Value Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleValue"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleValueResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        405:
+          description: "Method not allowed"
+
+  /rest/api/v1/rule/values/{id}:
+    get:
+      tags:
+        - "rule value"
+      summary: "Get rule value details by id."
+      description: "Get rule value details by id."
+      operationId: "getRuleValueById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule value"
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleValueResponse"
+        400:
+          description: "Invalid"
+        404:
+          description: "No rule values found"
+        401:
+          description: "Unauthorized"
+
+    put:
+      tags:
+        - "rule value"
+      summary: "updates an existing rule value to the system."
+      description: "updates an existing rule value to the system."
+      operationId: "updateRuleValueById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule value"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Rule Value Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleValue"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleValueResponse"
+        404:
+          description: "Rule Value with the given id not found"
+
+    delete:
+      tags:
+        - "rule value"
+      summary: "Deletes a rule value"
+      description: "Deletes a rule value"
+      operationId: "deleteRuleValueById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule value"
+          required: true
+          type: "integer"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        401:
+          description: "Rule Value can not be deleted till referenced by a component"
+        404:
+          description: "Rule Value ID not found"
+
+
+definitions:
+  Cta:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example:
+          "home"
+      title:
+        type: "string"
+        example:
+          "Home"
+      deeplink_value:
+        type: "string"
+        example:
+          "?url={encodedurl}"
+        description: "This will include all the values required to be passed to the deeplink in JSON Format"
+      description:
+        type: "string"
+        example:
+          "Home Page Tab"
+        default: "null"
+      deeplink_template_id:
+        type: "integer"
+        default: "null"
+        example: "1"
+    xml:
+      name: "CTA"
+
+  Deeplink:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example:
+          "home_page"
+      link:
+        type: "string"
+        example:
+          "magiotv://home"
+      description:
+        type: "string"
+        example:
+          "Home Page"
+        default: "null"
+    xml:
+      name: "Deeplink"
+
+  RuleKey:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example:
+          "fontSizeRule"
+      key:
+        type: "string"
+        example:
+          "fontSize"
+      data_type:
+        type: "string"
+        example:
+          "string"
+        default: "null"
+      description:
+        type: "string"
+        example:
+          "Rule to be applied to fonts."
+        default: "null"
+    xml:
+      name: "RuleKey"
+
+  RuleValue:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example:
+          "fontSizeValue"
+      value:
+        type: "string"
+        example:
+          "10px"
+        default: "null"
+      rule_key_id:
+        type: "integer"
+        example:
+          "1"
+    xml:
+      name: "RuleValue"
+
+  DeeplinkResponse:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/Deeplink"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example:
+          "1"
+    xml:
+      name: "DeeplinkResponse"
+
+  CtaResponse:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/Cta"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example:
+          "1"
+    xml:
+      name: "CtaResponse"
+
+  RuleKeyResponse:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/RuleKey"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example:
+          "1"
+    xml:
+      name: "RuleKeyResponse"
+
+  RuleValueResponse:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/RuleValue"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example:
+          "1"
+    xml:
+      name: "RuleValueResponse"
+
+  ErrorResponse:
+    type: "object"
+    properties:
+      code:
+        type: "string"
+        example:
+          "ER-101"
+      message:
+        type: "string"
+        example:
+          "Bad Request"
+      details:
+        type: "array"
+        items:
+          type: "string"
+          example:
+            "Name Already Exists"
+    xml:
+      name: "ErrorResponse"
