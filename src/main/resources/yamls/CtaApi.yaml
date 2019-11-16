@@ -114,7 +114,7 @@ paths:
       operationId: "updateCTAById"
       consumes:
         - "application/json"
-        - "application/xml"
+
       produces:
         - "application/json"
       parameters:

@@ -17,6 +17,9 @@ tags:
     description: "CRUD APIs for Endpoint Params"
   - name: "component endpoint"
     description: "CRUD APIs for Component Endpoint Mappings"
+  - name: "page component"
+    description: "CRUD APIs for Page Component Mappings"
+
 schemes:
   - https
   - http
@@ -29,8 +32,8 @@ paths:
     get:
       tags:
         - "category"
-      summary: "Get all the categories in the system."
-      description: "Get all the categories in the system."
+      summary: "Get all the categories."
+      description: "Get all the categories."
       operationId: "getAllCategories"
       produces:
         - "application/json"
@@ -47,26 +50,22 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/CategoryResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No categories found"
         401:
           description: "Unauthorized"
 
     post:
       tags:
         - "category"
-      summary: "Add a new category to the system."
-      description: "Add a new category to the system."
+      summary: "Add a new category."
+      description: "Add a new category."
       operationId: "addCategory"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
+        - name: "body"
+          in: "body"
           description: "Category Object that need to be added"
           required: true
           schema:
@@ -79,6 +78,7 @@ paths:
                 default: "false"
                 example:
                   "true"
+                description: "If set true, already set is_root will be removed as per current use case."
       responses:
         200:
           description: OK
@@ -95,8 +95,8 @@ paths:
     get:
       tags:
         - "category"
-      summary: "Get category details by id."
-      description: "Get category details by id."
+      summary: "Get category by id."
+      description: "Get category by id."
       operationId: "getCategoryById"
       produces:
         - application/json
@@ -112,8 +112,6 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/CategoryResponse"
-        400:
-          description: "Invalid"
         404:
           description: "No categories found"
         401:
@@ -122,12 +120,11 @@ paths:
     put:
       tags:
         - "category"
-      summary: "updates an existing category to the system."
-      description: "updates an existing category to the system."
+      summary: "Updates an existing category."
+      description: "Updates an existing category."
       operationId: "updateCategoryById"
       consumes:
         - "application/json"
-        - "application/xml"
       produces:
         - "application/json"
       parameters:
@@ -152,19 +149,22 @@ paths:
             type: "object"
             $ref: "#/definitions/CategoryResponse"
         404:
-          description: "Category with the given id not found"
+          description: "Category ID not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
         - "category"
-      summary: "Deletes a category"
-      description: "Deletes a category"
+      summary: "Deletes a category."
+      description: "Deletes a category."
       operationId: "deleteCategoryById"
       produces:
         - "application/json"
       responses:
-        400:
-          description: "Invalid ID supplied"
         401:
           description: "Default Category can not be deleted"
         404:
@@ -177,8 +177,8 @@ paths:
     get:
       tags:
         - "page"
-      summary: "Get all the pages in the system."
-      description: "Get all the pages in the system."
+      summary: "Get all the pages."
+      description: "Get all the pages."
       operationId: "getAllPages"
       produces:
         - "application/json"
@@ -192,26 +192,22 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/PageResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No categories found"
         401:
           description: "Unauthorized"
 
     post:
       tags:
         - "page"
-      summary: "Add a new page to the system."
-      description: "Add a new page to the system."
+      summary: "Add a new page."
+      description: "Add a new page."
       operationId: "addPage"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
+        - name: "body"
+          in: "body"
           description: "Page Object that need to be added"
           required: true
           schema:
@@ -234,8 +230,8 @@ paths:
     get:
       tags:
         - "page"
-      summary: "Get page details by id."
-      description: "Get page details by id."
+      summary: "Get page by id."
+      description: "Get page by id."
       operationId: "getPageById"
       produces:
         - application/json
@@ -251,8 +247,6 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/PageResponse"
-        400:
-          description: "Invalid"
         404:
           description: "No pages found"
         401:
@@ -261,17 +255,22 @@ paths:
     put:
       tags:
         - "page"
-      summary: "updates an existing page to the system."
-      description: "updates an existing page to the system."
+      summary: "Updates an existing page."
+      description: "Updates an existing page."
       operationId: "updatePageById"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Page Object that need to be added"
+        - name: "id"
+          in: "path"
+          description: "ID of the page"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Page Object that need to be updated"
           required: true
           schema:
             type: "object"
@@ -285,18 +284,27 @@ paths:
             $ref: "#/definitions/PageResponse"
         404:
           description: "Page with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
         - "page"
-      summary: "Deletes a page"
-      description: "Deletes a page"
+      summary: "Deletes a page."
+      description: "Deletes a page."
       operationId: "deletePageById"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the page"
+          required: true
+          type: "integer"
       produces:
         - "application/json"
       responses:
-        400:
-          description: "Invalid ID supplied"
         401:
           description: "Page can not be deleted till referenced by a category"
         404:
@@ -309,8 +317,8 @@ paths:
     get:
       tags:
         - "component"
-      summary: "Get all the components in the system."
-      description: "Get all the components in the system."
+      summary: "Get all the components."
+      description: "Get all the components."
       operationId: "getAllComponents"
       produces:
         - "application/json"
@@ -324,17 +332,13 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/ComponentResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No components found"
         401:
           description: "Unauthorized"
     post:
       tags:
         - "component"
-      summary: "Add a new component to the system."
-      description: "Add a new component to the system."
+      summary: "Add a new component."
+      description: "Add a new component."
       operationId: "addComponent"
       consumes:
         - "application/json"
@@ -365,8 +369,8 @@ paths:
     get:
       tags:
         - "component"
-      summary: "Get component details by id."
-      description: "Get component details by id."
+      summary: "Get component by id."
+      description: "Get component by id."
       operationId: "getComponentById"
       produces:
         - application/json
@@ -382,8 +386,6 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ComponentResponse"
-        400:
-          description: "Invalid"
         404:
           description: "No components found"
         401:
@@ -392,14 +394,19 @@ paths:
     put:
       tags:
         - "component"
-      summary: "updates an existing component to the system."
-      description: "updates an existing component to the system."
+      summary: "Updates an existing component."
+      description: "Updates an existing component."
       operationId: "updateComponentById"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the component"
+          required: true
+          type: "integer"
         - in: "body"
           name: "body"
           description: "Component Object that need to be added"
@@ -416,15 +423,26 @@ paths:
             $ref: "#/definitions/ComponentResponse"
         404:
           description: "Component with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
         - "component"
-      summary: "Deletes a component"
-      description: "Deletes a component"
+      summary: "Deletes a component."
+      description: "Deletes a component."
       operationId: "deleteComponentById"
       produces:
         - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the component"
+          required: true
+          type: "integer"
       responses:
         400:
           description: "Invalid ID supplied"
@@ -440,8 +458,8 @@ paths:
     get:
       tags:
         - "endpoint"
-      summary: "Get all the endpoints in the system."
-      description: "Get all the endpoints in the system."
+      summary: "Get all the endpoints."
+      description: "Get all the endpoints."
       operationId: "getAllEndpoints"
       produces:
         - "application/json"
@@ -455,17 +473,13 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/EndpointResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No endpoints found"
         401:
           description: "Unauthorized"
     post:
       tags:
         - "endpoint"
-      summary: "Add a new endpoint to the system."
-      description: "Add a new endpoint to the system."
+      summary: "Add a new endpoint."
+      description: "Add a new endpoint."
       operationId: "addEndpoint"
       consumes:
         - "application/json"
@@ -496,8 +510,8 @@ paths:
     get:
       tags:
         - "endpoint"
-      summary: "Get endpoint details by id."
-      description: "Get endpoint details by id."
+      summary: "Get endpoint by id."
+      description: "Get endpoint by id."
       operationId: "getEndpointById"
       produces:
         - application/json
@@ -513,8 +527,6 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/EndpointResponse"
-        400:
-          description: "Invalid"
         404:
           description: "No endpoints found"
         401:
@@ -523,14 +535,19 @@ paths:
     put:
       tags:
         - "endpoint"
-      summary: "updates an existing endpoint to the system."
-      description: "updates an existing endpoint to the system."
+      summary: "Updates an existing endpoint."
+      description: "Updates an existing endpoint."
       operationId: "updateEndpointById"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the endpoint"
+          required: true
+          type: "integer"
         - in: "body"
           name: "body"
           description: "Endpoint Object that need to be added"
@@ -545,22 +562,31 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/EndpointResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
         404:
           description: "Endpoint with the given id not found"
 
     delete:
       tags:
         - "endpoint"
-      summary: "Deletes a endpoint"
-      description: "Deletes a endpoint"
+      summary: "Deletes an endpoint."
+      description: "Deletes an endpoint."
       operationId: "deleteEndpointById"
       produces:
         - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the endpoint"
+          required: true
+          type: "integer"
       responses:
-        400:
-          description: "Invalid ID supplied"
         401:
-          description: "Endpoint can not be deleted till referenced by a page"
+          description: "Endpoint can not be deleted till referenced by a component"
         404:
           description: "Endpoint ID not found"
 
@@ -571,8 +597,8 @@ paths:
     get:
       tags:
         - "endpoint params"
-      summary: "Get all the endpoint params in the system."
-      description: "Get all the endpoint params in the system."
+      summary: "Get all the endpoint params."
+      description: "Get all the endpoint params."
       operationId: "getAllEndpointParams"
       produces:
         - "application/json"
@@ -586,17 +612,13 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/definitions/EndpointParamsResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No endpoints found"
         401:
           description: "Unauthorized"
     post:
       tags:
         - "endpoint params"
-      summary: "Add a new endpoint params to the system."
-      description: "Add a new endpoint params to the system."
+      summary: "Add a new endpoint params."
+      description: "Add a new endpoint params."
       operationId: "addEndpointParams"
       consumes:
         - "application/json"
@@ -627,9 +649,9 @@ paths:
     get:
       tags:
         - "endpoint params"
-      summary: "Get endpoint params details by id."
-      description: "Get endpoint params details by id."
-      operationId: "getEndpointById"
+      summary: "Get endpoint params by id."
+      description: "Get endpoint params by id."
+      operationId: "getEndpointParamsById"
       produces:
         - application/json
       parameters:
@@ -644,8 +666,6 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/EndpointParamsResponse"
-        400:
-          description: "Invalid"
         404:
           description: "No endpoint params found"
         401:
@@ -654,9 +674,9 @@ paths:
     put:
       tags:
         - "endpoint params"
-      summary: "updates an existing endpoint params to the system."
-      description: "updates an existing endpoint params to the system."
-      operationId: "updateEndpointById"
+      summary: "Updates an existing endpoint params."
+      description: "Updates an existing endpoint params."
+      operationId: "updateEndpointParamsById"
       consumes:
         - "application/json"
       produces:
@@ -667,84 +687,6 @@ paths:
           description: "ID of the endpoint params"
           required: true
           type: "integer"
-        - in: "body"
-          name: "body"
-          description: "Endpoint Params Object that need to be added"
-          required: true
-          schema:
-            type: "object"
-            allOf:
-              - $ref: "#/definitions/EndpointParams"
-      responses:
-        200:
-          description: OK
-          schema:
-            type: "object"
-            $ref: "#/definitions/EndpointParamsResponse"
-        404:
-          description: "Endpoint Params with the given id not found"
-
-    delete:
-      tags:
-        - "endpoint params"
-      summary: "Deletes a endpoint"
-      description: "Deletes a endpoint"
-      operationId: "deleteEndpointById"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "ID of the endpoint params"
-          required: true
-          type: "integer"
-      responses:
-        400:
-          description: "Invalid ID supplied"
-        401:
-          description: "Endpoint Params can not be deleted till referenced by a endpoint"
-        404:
-          description: "Endpoint Params ID not found"
-
-  #############################################################################
-  #COMPONENT ENDPOINTS MAPPING APIs
-  #############################################################################
-  /rest/api/v1/components/endpoints:
-    get:
-      tags:
-        - "endpoint params"
-      summary: "Get all the endpoint params in the system."
-      description: "Get all the endpoint params in the system."
-      operationId: "getAllEndpointParams"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: OK
-          schema:
-            type: "object"
-            properties:
-              pages:
-                type: "array"
-                items:
-                  $ref: "#/definitions/EndpointParamsResponse"
-        400:
-          description: "Invalid"
-        404:
-          description: "No endpoints found"
-        401:
-          description: "Unauthorized"
-    post:
-      tags:
-        - "endpoint params"
-      summary: "Add a new endpoint params to the system."
-      description: "Add a new endpoint params to the system."
-      operationId: "addEndpointParams"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
         - in: "body"
           name: "body"
           description: "Endpoint Params Object that need to be added"
@@ -764,16 +706,17 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Endpoint Params with the given id not found"
 
-  /rest/api/v1/components/endpoints/{id}:
-    get:
+    delete:
       tags:
         - "endpoint params"
-      summary: "Get endpoint params details by id."
-      description: "Get endpoint params details by id."
-      operationId: "getEndpointById"
+      summary: "Deletes an endpoint params."
+      description: "Deletes an endpoint params."
+      operationId: "deleteEndpointParamsById"
       produces:
-        - application/json
+        - "application/json"
       parameters:
         - name: "id"
           in: "path"
@@ -781,24 +724,97 @@ paths:
           required: true
           type: "integer"
       responses:
+        401:
+          description: "Endpoint Params can not be deleted till referenced by a endpoint or component"
+        404:
+          description: "Endpoint Params ID not found"
+
+  #############################################################################
+  #COMPONENT ENDPOINTS MAPPING APIs
+  #############################################################################
+  /rest/api/v1/components/endpoints:
+    get:
+      tags:
+        - "component endpoint"
+      summary: "Get all the component endpoint mappings."
+      description: "Get all the component endpoint mappings."
+      operationId: "getAllComponentEndpointMappings"
+      produces:
+        - "application/json"
+      responses:
         200:
           description: OK
           schema:
             type: "object"
-            $ref: "#/definitions/EndpointParamsResponse"
-        400:
-          description: "Invalid"
+            properties:
+              pages:
+                type: "array"
+                items:
+                  $ref: "#/definitions/ComponentEndpointResponse"
+        401:
+          description: "Unauthorized"
+    post:
+      tags:
+        - "component endpoint"
+      summary: "Add a new component endpoint mapping."
+      description: "Add a new component endpoint mapping."
+      operationId: "addComponentEndpointMapping"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/ComponentEndpoint"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/ComponentEndpointResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+
+  /rest/api/v1/components/endpoints/{id}:
+    get:
+      tags:
+        - "component endpoint"
+      summary: "Get component endpoint mapping by id."
+      description: "Get component endpoint mapping by id."
+      operationId: "getComponentEndpointMappingById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the component endpoint mapping."
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/ComponentEndpointResponse"
         404:
-          description: "No endpoint params found"
+          description: "No component endpoint mapping found"
         401:
           description: "Unauthorized"
 
     put:
       tags:
-        - "endpoint params"
-      summary: "updates an existing endpoint params to the system."
-      description: "updates an existing endpoint params to the system."
-      operationId: "updateEndpointById"
+        - "component endpoint"
+      summary: "Updates an existing component endpoint mapping."
+      description: "Updates an existing component endpoint mapping."
+      operationId: "updateComponentEndpointMappingById"
       consumes:
         - "application/json"
       produces:
@@ -806,47 +822,186 @@ paths:
       parameters:
         - name: "id"
           in: "path"
-          description: "ID of the endpoint params"
+          description: "ID of the component endpoint mapping."
           required: true
           type: "integer"
         - in: "body"
           name: "body"
-          description: "Endpoint Params Object that need to be added"
           required: true
           schema:
             type: "object"
             allOf:
-              - $ref: "#/definitions/EndpointParams"
+              - $ref: "#/definitions/ComponentEndpoint"
       responses:
         200:
           description: OK
           schema:
             type: "object"
-            $ref: "#/definitions/EndpointParamsResponse"
+            $ref: "#/definitions/ComponentEndpointResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
         404:
-          description: "Endpoint Params with the given id not found"
+          description: "component endpoint mappings with the given id not found."
 
     delete:
       tags:
-        - "endpoint params"
-      summary: "Deletes a endpoint"
-      description: "Deletes a endpoint"
-      operationId: "deleteEndpointById"
+        - "component endpoint"
+      summary: "Deletes a component endpoint mapping."
+      description: "Deletes a component endpoint mapping."
+      operationId: "deleteComponentEndpointMappingById"
       produces:
         - "application/json"
       parameters:
         - name: "id"
           in: "path"
-          description: "ID of the endpoint params"
+          description: "ID of the component endpoint mapping"
           required: true
           type: "integer"
       responses:
-        400:
-          description: "Invalid ID supplied"
         401:
-          description: "Endpoint Params can not be deleted till referenced by a endpoint"
+          description: "component endpoint mapping can not be deleted till referenced by a component and endpoint"
         404:
-          description: "Endpoint Params ID not found"
+          description: "component endpoint mapping ID not found"
+
+  #############################################################################
+  #PAGE COMPONENT MAPPING APIs
+  #############################################################################
+  /rest/api/v1/pages/components:
+    get:
+      tags:
+        - "page component"
+      summary: "Get all the page component mappings."
+      description: "Get all the page component mappings."
+      operationId: "getAllPageComponentMappings"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            properties:
+              pages:
+                type: "array"
+                items:
+                  $ref: "#/definitions/PageComponentResponse"
+        401:
+          description: "Unauthorized"
+    post:
+      tags:
+        - "page component"
+      summary: "Add a new page component mapping."
+      description: "Add a new page component mapping."
+      operationId: "addPageComponentMapping"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/PageComponent"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/PageComponentResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+
+  /rest/api/v1/pages/components/{id}:
+    get:
+      tags:
+        - "page component"
+      summary: "Get page component mapping by id."
+      description: "Get component endpoint mapping by id."
+      operationId: "getPageComponentMappingById"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the page component mapping."
+          required: true
+          type: "integer"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/PageComponentResponse"
+        404:
+          description: "No page component mapping found"
+        401:
+          description: "Unauthorized"
+
+    put:
+      tags:
+        - "page component"
+      summary: "Updates an existing page component mapping."
+      description: "Updates an existing page component mapping."
+      operationId: "updatePageComponentMappingById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the page component mapping."
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/PageComponent"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/PageComponentResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "page component mapping with the given id not found."
+
+    delete:
+      tags:
+        - "page component"
+      summary: "Deletes a page component mapping."
+      description: "Deletes a page component mapping."
+      operationId: "deletePageComponentMappingById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the page component mapping"
+          required: true
+          type: "integer"
+      responses:
+        401:
+          description: "page component mapping can not be deleted till referenced by a page and component"
+        404:
+          description: "page component mapping ID not found"
 
 
 definitions:
@@ -861,6 +1016,10 @@ definitions:
         type: "string"
         example:
           "Home"
+      is_default:
+        type: "boolean"
+        example:
+          "true"
       description:
         type: "string"
         example:
@@ -1014,7 +1173,7 @@ definitions:
     xml:
       name: "EndpointParams"
 
-  ComponentsEndpoints:
+  ComponentEndpoint:
     type: "object"
     properties:
       component_id:
@@ -1026,7 +1185,25 @@ definitions:
         example:
           "1"
     xml:
-      name: "ComponentsEndpoints"
+      name: "ComponentEndpoint"
+
+  PageComponent:
+    type: "object"
+    properties:
+      page_id:
+        type: "integer"
+        example:
+          "1"
+      component_id:
+        type: "integer"
+        example:
+          "1"
+      order:
+        type: "integer"
+        example:
+          "1"
+    xml:
+      name: "PageComponent"
 
   PageResponse:
     type: "object"
@@ -1093,10 +1270,10 @@ definitions:
     xml:
       name: "EndpointParamsResponse"
 
-  ComponentsEndpointsResponse:
+  ComponentEndpointResponse:
     type: "object"
     allOf:
-      - $ref: "#/definitions/ComponentsEndpoints"
+      - $ref: "#/definitions/ComponentEndpoint"
     properties:
       id:
         type: "integer"
@@ -1105,6 +1282,19 @@ definitions:
           "1"
     xml:
       name: "ComponentsEndpointsResponse"
+
+  PageComponentResponse:
+    type: "object"
+    allOf:
+      - $ref: "#/definitions/PageComponent"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example:
+          "1"
+    xml:
+      name: "PageComponentResponse"
 
   ErrorResponse:
     type: "object"
