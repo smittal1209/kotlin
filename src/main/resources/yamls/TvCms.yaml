@@ -46,7 +46,7 @@ paths:
               default_category_id:
                 type: "integer"
                 example: "1"
-              categories:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/CategoryResponse"
@@ -188,7 +188,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/PageResponse"
@@ -328,7 +328,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/ComponentResponse"
@@ -469,7 +469,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/EndpointResponse"
@@ -608,7 +608,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/EndpointParamsResponse"
@@ -747,7 +747,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/ComponentEndpointResponse"
@@ -884,7 +884,7 @@ paths:
           schema:
             type: "object"
             properties:
-              pages:
+              items:
                 type: "array"
                 items:
                   $ref: "#/definitions/PageComponentResponse"
