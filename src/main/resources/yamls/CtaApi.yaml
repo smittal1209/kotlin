@@ -4,6 +4,7 @@ info:
   description: These APIs are to be used to configure various components to be rendered on the UI for TV.
   version: 1.0.0
 host: api.example.com
+basePath: /api/
 tags:
   - name: "cta"
     description: "CRUD APIs for CTA"
@@ -23,7 +24,7 @@ paths:
   #############################################################################
   #CTA APIs
   #############################################################################
-  /rest/api/v1/ctas:
+  /ctas:
     get:
       tags:
         - "cta"
@@ -76,7 +77,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/ctas/{id}:
+  /ctas/{id}:
     get:
       tags:
         - "cta"
@@ -140,6 +141,49 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "cta"
+      summary: "updates an existing CTA to the system."
+      description: "updates an existing CTA to the system."
+      operationId: "updateCTAById"
+      consumes:
+        - "application/json"
+
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the CTA"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "CTA Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Cta"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/CtaResponse"
+        404:
+          description: "CTA with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -164,7 +208,7 @@ paths:
   #############################################################################
   #DEEPLINK TEMPLATE APIs
   #############################################################################
-  /rest/api/v1/deeplinks:
+  /deeplinks:
     get:
       tags:
         - "deeplink"
@@ -217,7 +261,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/deeplinks/{id}:
+  /deeplinks/{id}:
     get:
       tags:
         - "deeplink"
@@ -280,6 +324,48 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "deeplink"
+      summary: "updates an existing deeplink to the system."
+      description: "updates an existing deeplink to the system."
+      operationId: "updateDeeplinkById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the deeplink"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "DeeplinkTemplate Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/DeeplinkTemplate"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/DeeplinkTemplateResponse"
+        404:
+          description: "Deeplink with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -304,7 +390,7 @@ paths:
   #############################################################################
   #RULE KEY APIs
   #############################################################################
-  /rest/api/v1/rule/keys:
+  /rule/keys:
     get:
       tags:
         - "rule key"
@@ -356,7 +442,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/rule/keys/{id}:
+  /rule/keys/{id}:
     get:
       tags:
         - "rule key"
@@ -443,7 +529,7 @@ paths:
   #############################################################################
   #RULE VALUES APIs
   #############################################################################
-  /rest/api/v1/rule/values:
+  /rule/values:
     get:
       tags:
         - "rule value"
@@ -502,7 +588,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/rule/values/{id}:
+  /rule/values/{id}:
     get:
       tags:
         - "rule value"
@@ -590,7 +676,7 @@ paths:
   #############################################################################
   #COMPONENT RULE VALUE MAPPING APIs
   #############################################################################
-  /rest/api/v1/component/rule/:
+  /component/rule/:
     get:
       tags:
         - "component rule value"
@@ -645,7 +731,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/component/rule/{id}:
+  /component/rule/{id}:
     get:
       tags:
         - "component rule value"
@@ -704,7 +790,7 @@ definitions:
         type: "string"
         example:
           "Home"
-      deeplink_value:
+      params_values:
         type: "string"
         example:
           "?url={encodedurl}"
@@ -732,6 +818,10 @@ definitions:
         type: "string"
         example:
           "magiotv://home"
+      params_keys:
+        type: "string"
+        example:
+          "[url,page_id,source]"
       description:
         type: "string"
         example:

@@ -4,6 +4,7 @@ info:
   description: These APIs are to be used to configure various components to be rendered on the UI for TV.
   version: 1.0.0
 host: api.example.com
+basePath: /api/
 tags:
   - name: "category"
     description: "CRUD APIs for Category"
@@ -28,7 +29,7 @@ paths:
   #############################################################################
   #Category APIs
   #############################################################################
-  /rest/api/v1/cagtegories:
+  /cagtegories:
     get:
       tags:
         - "category"
@@ -91,7 +92,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/cagtegories/{id}:
+  /cagtegories/{id}:
     get:
       tags:
         - "category"
@@ -155,6 +156,49 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "category"
+      summary: "Updates an existing category."
+      description: "Updates an existing category."
+      operationId: "updateCategoryById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Category Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Category"
+            properties:
+              is_root:
+                type: "boolean"
+                default: "false"
+                example:
+                  "true"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/CategoryResponse"
+        404:
+          description: "Category ID not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -173,7 +217,7 @@ paths:
   #############################################################################
   #Page APIs
   #############################################################################
-  /rest/api/v1/pages:
+  /pages:
     get:
       tags:
         - "page"
@@ -226,7 +270,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/pages/{id}:
+  /pages/{id}:
     get:
       tags:
         - "page"
@@ -289,6 +333,43 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "page"
+      summary: "Updates an existing page."
+      description: "Updates an existing page."
+      operationId: "updatePageById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the page"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Page Object that need to be updated"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Page"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/PageResponse"
+        404:
+          description: "Page with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -313,7 +394,7 @@ paths:
   #############################################################################
   #Component APIs
   #############################################################################
-  /rest/api/v1/components:
+  /components:
     get:
       tags:
         - "component"
@@ -365,7 +446,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/components/{id}:
+  /components/{id}:
     get:
       tags:
         - "component"
@@ -428,6 +509,48 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "component"
+      summary: "Updates an existing component."
+      description: "Updates an existing component."
+      operationId: "updateComponentById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the component"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Component Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Component"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/ComponentResponse"
+        404:
+          description: "Component with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -454,7 +577,7 @@ paths:
   #############################################################################
   #Endpoint APIs
   #############################################################################
-  /rest/api/v1/endpoints:
+  /endpoints:
     get:
       tags:
         - "endpoint"
@@ -506,7 +629,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/endpoints/{id}:
+  /endpoints/{id}:
     get:
       tags:
         - "endpoint"
@@ -569,6 +692,48 @@ paths:
             $ref: "#/definitions/ErrorResponse"
         404:
           description: "Endpoint with the given id not found"
+    patch:
+      tags:
+        - "endpoint"
+      summary: "Updates an existing endpoint."
+      description: "Updates an existing endpoint."
+      operationId: "updateEndpointById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the endpoint"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Endpoint Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/Endpoint"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/EndpointResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Endpoint with the given id not found"
 
     delete:
       tags:
@@ -593,7 +758,7 @@ paths:
   #############################################################################
   #Endpoint Source Params APIs
   #############################################################################
-  /rest/api/v1/endpoints/params:
+  /endpoints/params:
     get:
       tags:
         - "endpoint params"
@@ -645,7 +810,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/endpoints/params/{id}:
+  /endpoints/params/{id}:
     get:
       tags:
         - "endpoint params"
@@ -708,6 +873,48 @@ paths:
             $ref: "#/definitions/ErrorResponse"
         404:
           description: "Endpoint Params with the given id not found"
+    patch:
+      tags:
+        - "endpoint params"
+      summary: "Updates an existing endpoint params."
+      description: "Updates an existing endpoint params."
+      operationId: "updateEndpointParamsById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the endpoint params"
+          required: true
+          type: "integer"
+        - in: "body"
+          name: "body"
+          description: "Endpoint Params Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/EndpointParams"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/EndpointParamsResponse"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Endpoint Params with the given id not found"
 
     delete:
       tags:
@@ -732,7 +939,7 @@ paths:
   #############################################################################
   #COMPONENT ENDPOINTS MAPPING APIs
   #############################################################################
-  /rest/api/v1/components/endpoints:
+  /components/endpoints:
     get:
       tags:
         - "component endpoint"
@@ -783,7 +990,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/components/endpoints/{id}:
+  /components/endpoints/{id}:
     get:
       tags:
         - "component endpoint"
@@ -869,7 +1076,7 @@ paths:
   #############################################################################
   #PAGE COMPONENT MAPPING APIs
   #############################################################################
-  /rest/api/v1/pages/components:
+  /pages/components:
     get:
       tags:
         - "page component"
@@ -920,7 +1127,7 @@ paths:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
 
-  /rest/api/v1/pages/components/{id}:
+  /pages/components/{id}:
     get:
       tags:
         - "page component"
@@ -1098,6 +1305,22 @@ definitions:
         type: "integer"
         example:
           "1"
+      endpoint_ids:
+        type: "array"
+        minItems: 1
+        items:
+          type: "integer"
+          format: "int64"
+          example:
+            "[1]"
+      rule_value_ids:
+        type: "array"
+        minItems: 1
+        items:
+          type: "integer"
+          format: "int64"
+          example:
+            "[1,2,3]"
     xml:
       name: "Component"
 
@@ -1138,10 +1361,6 @@ definitions:
         example:
           "Hollywood Movies Endpoint"
         default: "null"
-      cta_id:
-        type: "integer"
-        example:
-          "1"
     xml:
       name: "Endpoint"
 
