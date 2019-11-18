@@ -505,6 +505,48 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "rule key"
+      summary: "updates an existing rule key to the system."
+      description: "updates an existing rule key to the system."
+      operationId: "updateRukeKeyById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule key"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Rule Key Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleKey"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleKeyResponse"
+        404:
+          description: "Rule Key with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -651,6 +693,48 @@ paths:
           schema:
             type: "object"
             $ref: "#/definitions/ErrorResponse"
+    patch:
+      tags:
+        - "rule value"
+      summary: "updates an existing rule value to the system."
+      description: "updates an existing rule value to the system."
+      operationId: "updateRuleValueById"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the rule value"
+          required: true
+          type: "integer"
+        - name: "body"
+          in: "body"
+          description: "Rule Value Object that need to be added"
+          required: true
+          schema:
+            type: "object"
+            allOf:
+              - $ref: "#/definitions/RuleValue"
+        - name: "fields"
+          in: "query"
+          description: "Comma Separated String of Fields to be updated"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/RuleValueResponse"
+        404:
+          description: "Rule Value with the given id not found"
+        401:
+          description: "Validations Failed"
+          schema:
+            type: "object"
+            $ref: "#/definitions/ErrorResponse"
 
     delete:
       tags:
@@ -671,112 +755,6 @@ paths:
           description: "Rule Value can not be deleted till referenced by a component"
         404:
           description: "Rule Value ID not found"
-
-
-  #############################################################################
-  #COMPONENT RULE VALUE MAPPING APIs
-  #############################################################################
-  /component/rule/:
-    get:
-      tags:
-        - "component rule value"
-      summary: "Get all the component rule values."
-      description: "Get all the component rule values."
-      operationId: "getAllComponentRuleValues"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: OK
-          schema:
-            type: "object"
-            properties:
-              items:
-                type: "array"
-                items:
-                  $ref: "#/definitions/ComponentRuleValueResponse"
-        404:
-          description: "No component rule values found"
-        401:
-          description: "Unauthorized"
-
-    post:
-      tags:
-        - "component rule value"
-      summary: "Add a new component rule value to the system."
-      description: "Add a new component rule value to the system."
-      operationId: "addComponentRuleValue"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "body"
-          in: "body"
-          description: "Component Rule Value Object that need to be added"
-          required: true
-          schema:
-            type: "object"
-            allOf:
-              - $ref: "#/definitions/ComponentRuleValue"
-      responses:
-        200:
-          description: OK
-          schema:
-            type: "object"
-            $ref: "#/definitions/ComponentRuleValueResponse"
-        401:
-          description: "Validations Failed"
-          schema:
-            type: "object"
-            $ref: "#/definitions/ErrorResponse"
-
-  /component/rule/{id}:
-    get:
-      tags:
-        - "component rule value"
-      summary: "Get component rule value by id."
-      description: "Get component rule value by id."
-      operationId: "getComponentRuleValueById"
-      produces:
-        - application/json
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "ID of the component rule value"
-          required: true
-          type: "integer"
-      responses:
-        200:
-          description: OK
-          schema:
-            type: "object"
-            $ref: "#/definitions/ComponentRuleValueResponse"
-        404:
-          description: "No component rule values found"
-        401:
-          description: "Unauthorized"
-
-    delete:
-      tags:
-        - "component rule value"
-      summary: "Deletes a component rule value."
-      description: "Deletes a component rule value."
-      operationId: "deleteComponentRuleValueById"
-      produces:
-        - "application/json"
-      parameters:
-        - name: "id"
-          in: "path"
-          description: "ID of the component rule value"
-          required: true
-          type: "integer"
-      responses:
-        401:
-          description: "Component Rule Value can not be deleted till referenced by a component"
-        404:
-          description: "Component Rule Value ID not found"
-
 
 definitions:
   Cta:
@@ -873,21 +851,6 @@ definitions:
     xml:
       name: "RuleValue"
 
-  ComponentRuleValue:
-    type: "object"
-    properties:
-      component_id:
-        type: "integer"
-        example:
-          "1"
-      rule_value_id:
-        type: "integer"
-        example:
-          "1"
-        default: "null"
-    xml:
-      name: "ComponentRuleValue"
-
   DeeplinkTemplateResponse:
     type: "object"
     allOf:
@@ -939,19 +902,6 @@ definitions:
           "1"
     xml:
       name: "RuleValueResponse"
-
-  ComponentRuleValueResponse:
-    type: "object"
-    allOf:
-      - $ref: "#/definitions/ComponentRuleValue"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        example:
-          "1"
-    xml:
-      name: "ComponentRuleValueResponse"
 
   ErrorResponse:
     type: "object"
