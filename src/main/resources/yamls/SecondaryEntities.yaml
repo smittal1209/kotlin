@@ -14,8 +14,6 @@ tags:
     description: "CRUD APIs for Rule Key"
   - name: "rule value"
     description: "CRUD APIs for Rule Value"
-  - name: "component rule value"
-    description: "CRUD APIs for Component Rule Value"
 schemes:
   - https
   - http

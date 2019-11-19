@@ -16,10 +16,6 @@ tags:
     description: "CRUD APIs for Endpoint"
   - name: "endpoint params"
     description: "CRUD APIs for Endpoint Params"
-  - name: "component endpoint"
-    description: "CRUD APIs for Component Endpoint Mappings"
-  - name: "page component"
-    description: "CRUD APIs for Page Component Mappings"
 
 schemes:
   - https
@@ -998,7 +994,7 @@ definitions:
           type: "integer"
           format: "int64"
           example:
-            "1"
+            1,2,3,4
     xml:
       name: "Page"
 
@@ -1029,7 +1025,7 @@ definitions:
       cta_id:
         type: "integer"
         example:
-          "1"
+          1
       endpoint_ids:
         type: "array"
         minItems: 1
@@ -1037,7 +1033,7 @@ definitions:
           type: "integer"
           format: "int64"
           example:
-            "[1]"
+            1,2
       rule_value_ids:
         type: "array"
         minItems: 1
@@ -1045,7 +1041,7 @@ definitions:
           type: "integer"
           format: "int64"
           example:
-            "[1,2,3]"
+            1,2,3
     xml:
       name: "Component"
 
