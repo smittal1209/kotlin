@@ -1,0 +1,626 @@
+swagger: "2.0"
+info:
+  title: BFF APIs for TV.
+  description: These APIs will be delivered by BFF to the APP.
+  version: 1.0.0
+host: api.example.com
+basePath: /api/details/
+tags:
+  - name: "single-content"
+    description: "APIs for single content"
+  - name: "series-content"
+    description: "CRUD APIs for series content"
+  - name: "series-season-content"
+    description: "CRUD APIs for series season content"
+schemes:
+  - https
+  - http
+
+paths:
+  #############################################################################
+  #SINGLE CONTENT APIs
+  #############################################################################
+  /program/{program_id}:
+    get:
+      tags:
+        - "single-content"
+      summary: "Get single content details"
+      description: "Get single content details"
+      operationId: "getSingleContentDetails"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "program_id"
+          in: "path"
+          description: "Program ID of the single content"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/SingleContent"
+        401:
+          description: "Unauthorized"
+  #############################################################################
+  #SERIES CONTENT APIs
+  #############################################################################
+  /series/{series_id}:
+    get:
+      tags:
+        - "series-content"
+      summary: "Get single content details"
+      description: "Get single content details"
+      operationId: "getSingleContentDetails"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "series_id"
+          in: "path"
+          description: "Series ID of the series content"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/SeriesContent"
+        401:
+          description: "Unauthorized"
+
+  #############################################################################
+  #SERIES SEASON CONTENT APIs
+  #############################################################################
+  /series/{series_id}/season/{season_id}:
+    get:
+      tags:
+        - "series-season-content"
+      summary: "Get single content details"
+      description: "Get single content details"
+      operationId: "getSingleContentDetails"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "series_id"
+          in: "path"
+          description: "Series ID of the series content"
+          required: true
+          type: "string"
+        - name: "season_id"
+          in: "path"
+          description: "Season ID of the series season content"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: OK
+          schema:
+            type: "object"
+            $ref: "#/definitions/SeriesSeasonDetails"
+        401:
+          description: "Unauthorized"
+
+definitions:
+  SingleContent:
+    type: object
+    properties:
+      id:
+        type: string
+        example: 31303030ThirdParty333232353334343034
+      name:
+        type: string
+        example: Riválisok
+      poster_image_url:
+        type: string
+        example: https://images-na.ssl-images-amazon.com/images/M/posterlandscapesmall.jpg
+      is_live:
+        type: boolean
+      show_type:
+        type: string
+        example: TVShow|Movie
+      release_year:
+        type: integer
+        format: int32
+        example: 1971
+      ratings:
+        type: string
+        example: 12+
+      runtime_seconds:
+        type: integer
+        format: int32
+        example: 5040
+      is_adult:
+        type: boolean
+      review:
+        type: array
+        items:
+          type: object
+          properties:
+            rating:
+              type: string
+              example: 3.5
+            scale:
+              type: string
+              example: 5|10|100
+            source:
+              type: string
+              example: imdb
+            reviewed_by:
+              type: string
+              example: 2000
+      actions:
+        type: object
+        properties:
+          primaries:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: watch
+                template:
+                  type: string
+                  example: magenta|grey
+                watch:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      video:
+                        type: object
+                        properties:
+                          show_type:
+                            type: string
+                            example: TVShow|Movie
+                          playback_uri:
+                            type: string
+                            example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                          playback_origin:
+                            type: string
+                            example: ONPREMISEDYNAMIC
+                          id:
+                            type: string
+                            example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                          owner:
+                            type: string
+                            example: magyar
+                          encoding:
+                            type: string
+                            example: Jitp
+                          client_type:
+                            type: string
+                            example: Reach
+                      transaction_type:
+                        type: string
+                        example: Subscription
+                      start:
+                        type: string
+                        example: 2019-10-11T11:49:31.892Z
+                      end:
+                        type: string
+                        example: 2019-10-11T11:49:31.892Z
+          secondaries:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: trailer
+                trailer:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      video:
+                        type: object
+                        properties:
+                          playback_uri:
+                            type: string
+                            example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                          playback_origin:
+                            type: string
+                            example: ONPREMISEDYNAMIC
+                          id:
+                            type: string
+                            example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                          owner:
+                            type: string
+                            example: magyar
+                          encoding:
+                            type: string
+                            example: Jitp
+                          client_type:
+                            type: string
+                            example: Reach
+                      transaction_type:
+                        type: string
+                        example: Subscription
+                      start:
+                        type: string
+                        example: 2019-10-11T11:49:31.892Z
+      details:
+        type: object
+        properties:
+          description:
+            type: string
+            example: Valentina helyreteszi Rosendót az intézőt aki épp erőszakoskodik Iluminadával amikor ő a házba lép. Az új rideg és szigorú Valentina azonnal érvényesíteni tudja az akaratát. Rosendónak nem tetszik hogy kitették a szűrét a házból ahol eddig Valentina szüleinek lakosztályában lakott. A barátnőjéhez Crisantához költözik aki Iluminada anyja. A lány megkéri Valentinát hogy lakhasson a birtokon. Felipe elmegy elbúcsúzni Valentinától mivel áthelyezték de csak Ivanát találja otthon. Elmondja…
+          metadata:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: genres
+                value:
+                  type: string
+                  example: ComedyAction
+      locale:
+        type: string
+        example: en
+      last_updated:
+        type: string
+        example: 2019-11-12T22:17:51.706Z
+      roles:
+        type: array
+        items:
+          type: object
+          properties:
+            role_name:
+              type: string
+              example: Actor
+            person_id:
+              type: string
+              example: 52375
+            person_name:
+              type: string
+              example: Silvia Pinal
+            image_url:
+              type: string
+              example: https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwOWYzOTctOTc4My00ZmJkLTgzMTctMmUxNDI5ODQzYzNjXkEyXkFqcGdeQXVyNDAyODU1Njc.jpg
+    xml:
+      name: "SingleContent"
+
+  SeriesContent:
+    type: "object"
+    properties:
+      id:
+        type: string
+        example: 31303030ThirdParty333232353334343034
+      name:
+        type: string
+        example: Breaking Bad
+      episodes_count:
+        type: integer
+        format: int32
+        example: 1
+      seasons_count:
+        type: integer
+        format: int32
+        example: 1
+      poster_image_url:
+        type: string
+        example: https://images-na.ssl-images-amazon.com/images/M/posterlandscapesmall.jpg
+      is_live:
+        type: boolean
+      show_type:
+        type: string
+        example: TVShow
+      release_year:
+        type: integer
+        format: int32
+        example: 1971
+      end_year:
+        type: integer
+        format: int32
+        example: 1994
+      ratings:
+        type: string
+        example: 12+
+      is_adult:
+        type: boolean
+      actions:
+        type: object
+        properties:
+          primary:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: watch
+                watch:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      season_id:
+                        type: string
+                        example: 746D73ThirdParty5348303037353933393530303030_7
+                      season_number:
+                        type: integer
+                        format: int32
+                        example: 7
+                      episode_id:
+                        type: string
+                        example: TestData_120
+                      episode_name:
+                        type: string
+                        example: From Trauma Cometh Something
+                      episode_number:
+                        type: string
+                        example: 2
+                      video:
+                        type: object
+                        properties:
+                          playback_uri:
+                            type: string
+                            example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                          playback_origin:
+                            type: string
+                            example: ONPREMISEDYNAMIC
+                          id:
+                            type: string
+                            example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                          owner:
+                            type: string
+                            example: magyar
+                          encoding:
+                            type: string
+                            example: Jitp
+                          client_type:
+                            type: string
+                            example: Reach
+                      transaction_type:
+                        type: string
+                        example: Subscription
+                      start:
+                        type: string
+                        example: 2019-10-11T11:49:31.892Z
+          secondary:
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: trailer
+                trailer:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      video:
+                        type: object
+                        properties:
+                          playback_uri:
+                            type: string
+                            example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                          playback_origin:
+                            type: string
+                            example: ONPREMISEDYNAMIC
+                          id:
+                            type: string
+                            example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                          owner:
+                            type: string
+                            example: magyar
+                          encoding:
+                            type: string
+                            example: Jitp
+                          client_type:
+                            type: string
+                            example: Reach
+                      transaction_type:
+                        type: string
+                        example: Subscription
+                      start:
+                        type: string
+                        example: 2019-10-11T11:49:31.892Z
+      details:
+        type: object
+        properties:
+          description:
+            type: string
+            example: A high school chemistry teacher experiencing a mid-life crisis discovers he is dying of lung cancer and desperate he decides to secure his family's financial future by teaming up with a former student to turn a used RV into a mobile meth lab.
+          metadata:
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: genres
+                value:
+                  type: string
+                  example: ComedyAction
+      locale:
+        type: string
+        example: en
+      last_updated:
+        type: string
+        example: 2019-11-12T22:17:51.706Z
+      seasons:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 746D73ThirdParty5348303037353933393530303030_7
+            name:
+              type: string
+              example: Season 7
+            number:
+              type: integer
+              format: int32
+              example: 7
+            episodes_count:
+              type: integer
+              format: int32
+              example: 1
+      roles:
+        type: array
+        items:
+          type: object
+          properties:
+            role_name:
+              type: string
+              example: Actor
+            person_id:
+              type: string
+              example: 52375
+            person_name:
+              type: string
+              example: Silvia Pinal
+            image_url:
+              type: string
+              example: https://images-na.ssl-images-amazon.com/images/M/MV5BMTYwOWYzOTctOTc4My00ZmJkLTgzMTctMmUxNDI5ODQzYzNjXkEyXkFqcGdeQXVyNDAyODU1Njc.jpg
+    xml:
+      name: "SeriesContent"
+
+  SeriesSeasonDetails:
+    type: "object"
+    properties:
+      id:
+        type: string
+        example: fake_103020112_103020112_1
+      name:
+        type: string
+        example: Season 1
+      number:
+        type: integer
+        format: int32
+        example: 1
+      episodes:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+              example: 667969ThirdParty383731373131
+            number:
+              type: string
+              example: 2
+            name:
+              type: string
+              example: Mighty Ships
+            poster_image_url:
+              type: string
+              example: https://images-na.ssl-images-amazon.com/images/M/posterlandscapesmall.jpg
+            show_type:
+              type: string
+              example: TVShow
+            release_year:
+              type: integer
+              format: int32
+              example: 2016
+            ratings:
+              type: string
+              example: PG
+            runtime_seconds:
+              type: integer
+              format: int32
+              example: 5040
+            is_adult:
+              type: boolean
+            has_content_advisory:
+              type: boolean
+            locale:
+              type: string
+              example: en
+            details:
+              type: object
+              properties:
+                description:
+                  type: string
+                  example: Valentina helyreteszi Rosendót az intézőt aki épp erőszakoskodik Iluminadával amikor ő a házba lép. Az új rideg és szigorú Valentina azonnal érvényesíteni tudja az akaratát. Rosendónak nem tetszik hogy kitették a szűrét a házból ahol eddig Valentina szüleinek lakosztályában lakott. A barátnőjéhez Crisantához költözik aki Iluminada anyja. A lány megkéri Valentinát hogy lakhasson a birtokon. Felipe elmegy elbúcsúzni Valentinától mivel áthelyezték de csak Ivanát találja otthon. Elmondja…
+            actions:
+              type: object
+              properties:
+                primary:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: watch
+                      watch:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            video:
+                              type: object
+                              properties:
+                                playback_uri:
+                                  type: string
+                                  example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                                playback_origin:
+                                  type: string
+                                  example: ONPREMISEDYNAMIC
+                                id:
+                                  type: string
+                                  example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                                owner:
+                                  type: string
+                                  example: magyar
+                                encoding:
+                                  type: string
+                                  example: Jitp
+                                client_type:
+                                  type: string
+                                  example: Reach
+                            transaction_type:
+                              type: string
+                              example: Subscription
+                            start:
+                              type: string
+                              example: 2019-10-11T11:49:31.892Z
+                secondary:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: trailer
+                      trailer:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            video:
+                              type: object
+                              properties:
+                                playback_uri:
+                                  type: string
+                                  example: http://vsppvmprodc1.cloudapp.net:5555/shls/magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach/index.m3u8?device=v2_reach_hd_enc
+                                playback_origin:
+                                  type: string
+                                  example: ONPREMISEDYNAMIC
+                                id:
+                                  type: string
+                                  example: magyar_99990014_SVOD201904_Filmbox_SPI100916_439_Jitp_Reach_HD
+                                owner:
+                                  type: string
+                                  example: magyar
+                                encoding:
+                                  type: string
+                                  example: Jitp
+                                client_type:
+                                  type: string
+                                  example: Reach
+                            transaction_type:
+                              type: string
+                              example: Subscription
+                            start:
+                              type: string
+                              example: 2019-10-11T11:49:31.892Z
